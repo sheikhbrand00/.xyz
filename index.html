@@ -1,737 +1,666 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elias - Freelance Designer & Developer</title>
-  <meta name="description" content="Freelance product designer and frontend developer specializing in premium web applications." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            primary: '#18181b',
-            'primary-fg': '#ffffff',
-            accent: '#6366f1',
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Morgan | Creative Developer & Designer</title>
+    <meta name="description" content="Portfolio of Alex Morgan - Creative Developer and UI/UX Designer specializing in modern web experiences.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'marquee': 'marquee 25s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: #ffffff; color: #18181b; }
-
-    /* --- NAVBAR --- */
-    #navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      transition: all 0.3s ease;
-      padding: 1.5rem 0;
-    }
-    #navbar.scrolled {
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #e4e4e7;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-      padding: 1rem 0;
-    }
-    .nav-inner {
-      max-width: 1280px; margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav-logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.05em; color: #18181b; text-decoration: none; }
-    .nav-logo span { color: #6366f1; }
-    .nav-links { display: flex; align-items: center; gap: 2rem; }
-    .nav-links a { font-size: 0.9rem; font-weight: 500; color: #71717a; text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: #18181b; }
-    .nav-cta {
-      padding: 0.6rem 1.3rem; border-radius: 999px;
-      background: #18181b; color: #fff;
-      font-size: 0.875rem; font-weight: 600; text-decoration: none;
-      transition: all 0.2s; border: none; cursor: pointer;
-    }
-    .nav-cta:hover { background: #3f3f46; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
-    #mobile-menu {
-      display: none; flex-direction: column; gap: 0.5rem;
-      background: #fff; border-bottom: 1px solid #e4e4e7;
-      padding: 1rem 1.5rem 1.5rem;
-    }
-    #mobile-menu a { font-size: 1rem; font-weight: 500; color: #18181b; text-decoration: none; padding: 0.6rem 0.8rem; border-radius: 0.6rem; }
-    #mobile-menu a:hover { background: #f4f4f5; }
-    #mobile-menu .mob-cta {
-      display: block; text-align: center; margin-top: 0.5rem;
-      padding: 0.8rem 1.5rem; border-radius: 0.75rem;
-      background: #18181b; color: #fff; font-weight: 600;
-    }
-
-    /* --- SECTION FADE IN --- */
-    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .fade-delay-1 { transition-delay: 0.1s; }
-    .fade-delay-2 { transition-delay: 0.2s; }
-    .fade-delay-3 { transition-delay: 0.3s; }
-
-    /* --- HERO --- */
-    #hero {
-      position: relative; min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 8rem 1.5rem 5rem;
-      overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background: radial-gradient(ellipse at 60% 30%, rgba(99,102,241,0.12) 0%, transparent 60%),
-                  radial-gradient(ellipse at 10% 80%, rgba(99,102,241,0.08) 0%, transparent 50%);
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
-    .available-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 1rem; border-radius: 999px;
-      background: #f4f4f5; border: 1px solid #e4e4e7;
-      font-size: 0.85rem; font-weight: 500; color: #52525b;
-      margin-bottom: 1.5rem;
-    }
-    .ping-dot { position: relative; width: 10px; height: 10px; }
-    .ping-dot::before {
-      content: ''; position: absolute; inset: 0; border-radius: 50%;
-      background: #22c55e; animation: ping 1.5s cubic-bezier(0,0,0.2,1) infinite; opacity: 0.7;
-    }
-    .ping-dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #16a34a; }
-    @keyframes ping { 75%,100% { transform: scale(2); opacity: 0; } }
-    .hero-title {
-      font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 900;
-      letter-spacing: -0.04em; line-height: 1.05; color: #18181b; margin-bottom: 1.5rem;
-    }
-    .hero-title .grad {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .hero-sub { font-size: 1.15rem; color: #71717a; line-height: 1.7; margin-bottom: 2.5rem; max-width: 560px; margin-left: auto; margin-right: auto; }
-    .hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 1rem 2rem; border-radius: 0.875rem;
-      background: #18181b; color: #fff; font-weight: 700; font-size: 1rem;
-      text-decoration: none; transition: all 0.3s; border: none; cursor: pointer;
-    }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.2); background: #3f3f46; }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 1rem 2rem; border-radius: 0.875rem;
-      background: #f4f4f5; color: #18181b; font-weight: 700; font-size: 1rem;
-      text-decoration: none; transition: all 0.3s;
-    }
-    .btn-secondary:hover { background: #e4e4e7; transform: translateY(-2px); }
-
-    /* --- SECTION COMMON --- */
-    section { padding: 6rem 1.5rem; }
-    .container { max-width: 1280px; margin: 0 auto; }
-    .section-badge {
-      display: inline-block; padding: 0.25rem 0.75rem; border-radius: 999px;
-      background: #f4f4f5; color: #52525b; font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem;
-    }
-    .section-title { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #18181b; line-height: 1.2; }
-
-    /* --- ABOUT --- */
-    #about { background: #fff; }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-    .about-img-wrap { position: relative; }
-    .about-img {
-      aspect-ratio: 1; border-radius: 2rem; overflow: hidden; background: #f4f4f5;
-    }
-    .about-img img { width: 100%; height: 100%; object-fit: cover; }
-    .about-badge-box {
-      position: absolute; bottom: -1.5rem; right: -1.5rem;
-      background: #fff; padding: 1.2rem 1.5rem; border-radius: 1.2rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12); border: 1px solid #e4e4e7;
-    }
-    .about-badge-num { font-size: 2.2rem; font-weight: 900; color: #6366f1; line-height: 1; }
-    .about-badge-txt { font-size: 0.8rem; font-weight: 600; color: #71717a; margin-top: 0.25rem; }
-    .about-text p { color: #52525b; line-height: 1.8; font-size: 1.05rem; margin-bottom: 1.2rem; }
-    .tech-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
-    .tag {
-      padding: 0.4rem 1rem; border-radius: 0.6rem; background: #f4f4f5;
-      color: #3f3f46; font-size: 0.875rem; font-weight: 600;
-    }
-
-    /* --- SERVICES --- */
-    #services { background: #fafafa; }
-    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .service-card {
-      background: #fff; padding: 2.5rem; border-radius: 2rem;
-      border: 1px solid #e4e4e7; transition: all 0.35s;
-    }
-    .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 48px rgba(0,0,0,0.1); border-color: #c7d2fe; }
-    .service-icon {
-      width: 3.5rem; height: 3.5rem; border-radius: 1rem;
-      background: rgba(99,102,241,0.08); display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.5rem;
-    }
-    .service-icon svg { width: 1.75rem; height: 1.75rem; color: #6366f1; stroke: #6366f1; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .service-card h3 { font-size: 1.2rem; font-weight: 700; color: #18181b; margin-bottom: 0.75rem; }
-    .service-card p { font-size: 0.95rem; color: #71717a; line-height: 1.7; }
-
-    /* --- PORTFOLIO --- */
-    #portfolio { background: #fff; }
-    .portfolio-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1rem; }
-    .view-all { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.95rem; font-weight: 600; color: #6366f1; text-decoration: none; }
-    .view-all:hover { text-decoration: underline; }
-    .portfolio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-    .project-card { cursor: pointer; }
-    .project-card.full-width { grid-column: span 2; }
-    .project-img {
-      border-radius: 1.5rem; overflow: hidden; background: #f4f4f5;
-      position: relative; margin-bottom: 1.2rem;
-    }
-    .project-card.full-width .project-img { aspect-ratio: 21/9; }
-    .project-img:not(.project-card.full-width .project-img) { aspect-ratio: 4/3; }
-    .project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; display: block; }
-    .project-card:hover .project-img img { transform: scale(1.05); }
-    .project-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.25);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .project-card:hover .project-overlay { opacity: 1; }
-    .project-overlay span {
-      padding: 0.7rem 1.5rem; background: #fff; color: #18181b;
-      font-weight: 600; border-radius: 999px; font-size: 0.9rem;
-      transform: translateY(8px); transition: transform 0.3s;
-    }
-    .project-card:hover .project-overlay span { transform: translateY(0); }
-    .project-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; }
-    .project-meta span { font-size: 0.8rem; font-weight: 600; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.06em; }
-    .project-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: #d4d4d8; }
-    .project-card h3 { font-size: 1.4rem; font-weight: 700; color: #18181b; transition: color 0.2s; }
-    .project-card.full-width h3 { font-size: 1.8rem; }
-    .project-card:hover h3 { color: #6366f1; }
-
-    /* --- TESTIMONIALS --- */
-    #testimonials {
-      background: #18181b; color: #fff;
-      border-radius: 3rem 3rem 0 0; padding: 6rem 1.5rem;
-    }
-    #testimonials .section-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
-    #testimonials .section-title { color: #fff; text-align: center; }
-    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
-    .testimonial-card {
-      background: rgba(255,255,255,0.05); padding: 2.5rem;
-      border-radius: 2rem; border: 1px solid rgba(255,255,255,0.1);
-    }
-    .stars { display: flex; gap: 0.2rem; margin-bottom: 1.5rem; }
-    .stars svg { width: 1.1rem; height: 1.1rem; fill: #facc15; stroke: none; }
-    .testimonial-card p { font-size: 1.05rem; line-height: 1.75; color: rgba(255,255,255,0.9); margin-bottom: 2rem; font-style: italic; }
-    .reviewer { display: flex; align-items: center; gap: 1rem; }
-    .reviewer-avatar {
-      width: 3rem; height: 3rem; border-radius: 50%;
-      background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 700; color: #fff;
-    }
-    .reviewer-name { font-weight: 700; color: #fff; font-size: 0.95rem; }
-    .reviewer-role { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.1rem; }
-
-    /* --- CONTACT --- */
-    #contact { background: #fff; }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
-    .contact-info h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; color: #18181b; margin-bottom: 1.2rem; }
-    .contact-info p { font-size: 1.05rem; color: #71717a; line-height: 1.7; margin-bottom: 2.5rem; }
-    .email-row { display: flex; align-items: center; gap: 1rem; }
-    .email-icon {
-      width: 3rem; height: 3rem; border-radius: 50%;
-      background: #f4f4f5; display: flex; align-items: center; justify-content: center;
-    }
-    .email-icon svg { width: 1.2rem; height: 1.2rem; stroke: #6366f1; fill: none; stroke-width: 2; }
-    .email-label { font-size: 0.8rem; font-weight: 600; color: #a1a1aa; margin-bottom: 0.15rem; }
-    .email-link { font-size: 1.1rem; font-weight: 700; color: #18181b; text-decoration: none; }
-    .email-link:hover { color: #6366f1; }
-    .contact-form {
-      background: #fff; padding: 2.5rem; border-radius: 2rem;
-      border: 1px solid #e4e4e7; box-shadow: 0 12px 40px rgba(0,0,0,0.07);
-    }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem; }
-    .form-group label { font-size: 0.875rem; font-weight: 600; color: #3f3f46; }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      padding: 0.85rem 1rem; border-radius: 0.75rem;
-      border: 1.5px solid #e4e4e7; background: #fafafa;
-      font-size: 0.95rem; font-family: inherit; color: #18181b;
-      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
-    }
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.12); background: #fff; }
-    .form-group input.error,
-    .form-group select.error,
-    .form-group textarea.error { border-color: #ef4444; }
-    .form-error { font-size: 0.8rem; color: #ef4444; margin-top: 0.25rem; }
-    .form-group textarea { resize: none; }
-    .form-group select { appearance: none; cursor: pointer; }
-    .submit-btn {
-      width: 100%; padding: 1rem; border-radius: 0.875rem;
-      background: #18181b; color: #fff; font-size: 1rem; font-weight: 700;
-      border: none; cursor: pointer; transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    }
-    .submit-btn:hover:not(:disabled) { background: #3f3f46; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    .spinner {
-      width: 1.2rem; height: 1.2rem; border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* --- TOAST --- */
-    #toast {
-      position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
-      background: #18181b; color: #fff; padding: 1rem 1.5rem; border-radius: 1rem;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-      transform: translateY(100px); opacity: 0;
-      transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
-      max-width: 320px;
-    }
-    #toast.show { transform: translateY(0); opacity: 1; }
-    #toast strong { display: block; font-weight: 700; margin-bottom: 0.25rem; }
-    #toast span { font-size: 0.875rem; color: rgba(255,255,255,0.7); }
-
-    /* --- FOOTER --- */
-    footer {
-      background: #fff; padding: 2.5rem 1.5rem;
-      border-top: 1px solid #e4e4e7;
-    }
-    .footer-inner {
-      max-width: 1280px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
-    }
-    .footer-logo { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.04em; color: #18181b; }
-    .footer-logo span { color: #6366f1; }
-    .footer-copy { font-size: 0.875rem; color: #a1a1aa; }
-    .social-links { display: flex; gap: 0.75rem; }
-    .social-links a {
-      width: 2.5rem; height: 2.5rem; border-radius: 50%;
-      background: #f4f4f5; display: flex; align-items: center; justify-content: center;
-      color: #3f3f46; text-decoration: none; transition: all 0.2s;
-    }
-    .social-links a:hover { background: #6366f1; color: #fff; transform: translateY(-2px); }
-    .social-links svg { width: 1rem; height: 1rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-    /* --- RESPONSIVE --- */
-    @media (max-width: 900px) {
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .services-grid { grid-template-columns: 1fr 1fr; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .about-badge-box { bottom: 1rem; right: 1rem; }
-    }
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .hamburger { display: block; }
-      .services-grid, .portfolio-grid { grid-template-columns: 1fr; }
-      .project-card.full-width { grid-column: span 1; }
-      .project-card.full-width .project-img { aspect-ratio: 16/9; }
-      .form-row { grid-template-columns: 1fr; }
-      #toast { left: 1rem; right: 1rem; bottom: 1rem; }
-    }
-  </style>
+      </script>
+      <style>
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor.hover {
+            transform: scale(2);
+            background-color: currentColor;
+        }
+        
+        /* Scroll-triggered animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Hide scrollbar for marquee */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Selection color */
+        ::selection {
+            background: #0ea5e9;
+            color: white;
+        }
+        
+        /* Project card hover effect */
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .dark .project-card:hover {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+    </style>
 </head>
-<body>
+<body class="font-sans antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden">
 
-<!-- NAVBAR -->
-<header id="navbar">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo">Elias<span>.</span></a>
-    <nav class="nav-links">
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#portfolio">Work</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#contact" class="nav-cta">Let's Talk</a>
-    </nav>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
-      <svg id="ham-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
-  </div>
-  <div id="mobile-menu">
-    <a href="#about" onclick="closeMobileMenu()">About</a>
-    <a href="#services" onclick="closeMobileMenu()">Services</a>
-    <a href="#portfolio" onclick="closeMobileMenu()">Work</a>
-    <a href="#testimonials" onclick="closeMobileMenu()">Testimonials</a>
-    <a href="#contact" class="mob-cta" onclick="closeMobileMenu()">Let's Talk</a>
-  </div>
-</header>
+    <!-- Custom Cursor (Desktop only) -->
+    <div class="custom-cursor hidden md:block" id="cursor"></div>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="available-badge fade-in">
-      <span class="ping-dot"></span>
-      Available for new projects
-    </div>
-    <h1 class="hero-title fade-in fade-delay-1">
-      Crafting digital<br/>
-      <span class="grad">experiences</span> that matter.
-    </h1>
-    <p class="hero-sub fade-in fade-delay-2">
-      I'm a freelance product designer and frontend developer specializing in building premium, intuitive web applications for forward-thinking brands.
-    </p>
-    <div class="hero-buttons fade-in fade-delay-3">
-      <a href="#contact" class="btn-primary">
-        Start a project
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="#portfolio" class="btn-secondary">View my work</a>
-    </div>
-  </div>
-</section>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="font-display text-2xl font-bold tracking-tighter hover:text-primary-500 transition-colors">
+                        AM<span class="text-primary-500">.</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-sm font-medium hover:text-primary-500 transition-colors relative group">
+                        About
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#projects" class="text-sm font-medium hover:text-primary-500 transition-colors relative group">
+                        Projects
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#skills" class="text-sm font-medium hover:text-primary-500 transition-colors relative group">
+                        Skills
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="text-sm font-medium hover:text-primary-500 transition-colors relative group">
+                        Contact
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle theme">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                </div>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-img-wrap fade-in">
-        <div class="about-img">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&fit=crop" alt="Elias - Product Designer" onerror="this.style.display='none'"/>
-        </div>
-        <div class="about-badge-box">
-          <div class="about-badge-num">8+</div>
-          <div class="about-badge-txt">Years of<br/>Experience</div>
-        </div>
-      </div>
-      <div class="about-text fade-in fade-delay-1">
-        <span class="section-badge">About Me</span>
-        <h2 class="section-title" style="margin-bottom:1.5rem;">Passionate about precision and performance.</h2>
-        <p>Since beginning my journey as a freelance designer nearly a decade ago, I've done remote work for agencies, consulted for startups, and collaborated with talented people to create digital products for both business and consumer use.</p>
-        <p>I create successful responsive websites that are fast, easy to use, and built with best practices. My main area of expertise is front-end development, building small and medium web apps, custom plugins, features, animations, and interactive layouts.</p>
-        <h3 style="font-size:1rem;font-weight:700;color:#18181b;margin-bottom:0.75rem;">Core Technologies</h3>
-        <div class="tech-tags">
-          <span class="tag">React</span>
-          <span class="tag">TypeScript</span>
-          <span class="tag">Next.js</span>
-          <span class="tag">Tailwind CSS</span>
-          <span class="tag">Figma</span>
-          <span class="tag">Node.js</span>
-          <span class="tag">GraphQL</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:3.5rem;">
-      <span class="section-badge">Services</span>
-      <h2 class="section-title">How I can help you</h2>
-    </div>
-    <div class="services-grid">
-      <div class="service-card fade-in">
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        </div>
-        <h3>Web Development</h3>
-        <p>Fast, responsive, and accessible websites built with modern frameworks like React and Next.js.</p>
-      </div>
-      <div class="service-card fade-in fade-delay-1">
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        </div>
-        <h3>UI/UX Design</h3>
-        <p>Intuitive, user-centered interfaces that look beautiful and drive conversions for your business.</p>
-      </div>
-      <div class="service-card fade-in fade-delay-2">
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-        </div>
-        <h3>Mobile App Design</h3>
-        <p>Engaging mobile experiences designed for both iOS and Android platforms with pixel-perfect quality.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PORTFOLIO -->
-<section id="portfolio">
-  <div class="container">
-    <div class="portfolio-header">
-      <div>
-        <span class="section-badge">Portfolio</span>
-        <h2 class="section-title">Selected Works</h2>
-      </div>
-      <a href="#" class="view-all">
-        View all projects
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-    </div>
-    <div class="portfolio-grid">
-      <!-- Project 1 (full width) -->
-      <div class="project-card full-width fade-in">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=80&fit=crop" alt="Nexus Analytics Dashboard"/>
-          <div class="project-overlay"><span>View Case Study</span></div>
-        </div>
-        <div class="project-meta">
-          <span>Web Application</span>
-          <div class="dot"></div>
-          <span>2024</span>
-        </div>
-        <h3>Nexus Analytics Dashboard</h3>
-      </div>
-      <!-- Project 2 -->
-      <div class="project-card fade-in fade-delay-1">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80&fit=crop" alt="FinTech Wallet OS"/>
-          <div class="project-overlay"><span>View Case Study</span></div>
-        </div>
-        <div class="project-meta"><span>Mobile App</span></div>
-        <h3>FinTech Wallet OS</h3>
-      </div>
-      <!-- Project 3 -->
-      <div class="project-card fade-in fade-delay-2">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&q=80&fit=crop" alt="Aura Beauty Store"/>
-          <div class="project-overlay"><span>View Case Study</span></div>
-        </div>
-        <div class="project-meta"><span>E-Commerce</span></div>
-        <h3>Aura Beauty Store</h3>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="container">
-    <div style="text-align:center;">
-      <span class="section-badge">Testimonials</span>
-      <h2 class="section-title">Client Feedback</h2>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card fade-in">
-        <div class="stars">
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        </div>
-        <p>"Working with Elias was a game-changer for our startup. The attention to detail and ability to translate complex requirements into beautiful UI is unmatched. Delivered ahead of schedule."</p>
-        <div class="reviewer">
-          <div class="reviewer-avatar">S</div>
-          <div>
-            <div class="reviewer-name">Sarah Jenkins</div>
-            <div class="reviewer-role">CEO at TechFlow</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card fade-in fade-delay-1">
-        <div class="stars">
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        </div>
-        <p>"An absolute professional. Not only is the code clean and maintainable, but the design sensibilities brought our product to a level we didn't think was possible. Highly recommended."</p>
-        <div class="reviewer">
-          <div class="reviewer-avatar">M</div>
-          <div>
-            <div class="reviewer-name">Marcus Chen</div>
-            <div class="reviewer-role">Product Manager at Elevate</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-info fade-in">
-        <h2>Let's build something brilliant together.</h2>
-        <p>I'm currently available for freelance work. If you have a project that needs some creative touch, I'd love to hear about it.</p>
-        <div class="email-row">
-          <div class="email-icon">
-            <svg viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          </div>
-          <div>
-            <div class="email-label">Email me at</div>
-            <a href="mailto:hello@eliasdesign.com" class="email-link">hello@eliasdesign.com</a>
-          </div>
-        </div>
-      </div>
-      <div class="contact-form fade-in fade-delay-1">
-        <form id="contactForm" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name">Your Name</label>
-              <input type="text" id="name" name="name" placeholder="John Doe" />
-              <span class="form-error" id="name-error"></span>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" placeholder="john@example.com" />
-              <span class="form-error" id="email-error"></span>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass absolute w-full border-b border-gray-200 dark:border-gray-800">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800">About</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800">Projects</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800">Skills</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800">Contact</a>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="service">Service Required</label>
-            <select id="service" name="service">
-              <option value="">Select a service...</option>
-              <option value="web-design">Web Design</option>
-              <option value="web-development">Web Development</option>
-              <option value="app-design">App Design</option>
-              <option value="consulting">Consulting</option>
-            </select>
-            <span class="form-error" id="service-error"></span>
-          </div>
-          <div class="form-group">
-            <label for="message">Project Details</label>
-            <textarea id="message" name="message" rows="4" placeholder="Tell me about your project timeline, goals, etc."></textarea>
-            <span class="form-error" id="message-error"></span>
-          </div>
-          <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
-        </form>
-      </div>
+        </div>
+  </nav>
+      <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary-500/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-fade-in-up">
+                <p class="text-sm md:text-base font-medium text-primary-600 dark:text-primary-400 tracking-wider uppercase mb-4">
+                    Creative Developer & Designer
+                </p>
+                <h1 class="font-display text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter mb-6 leading-tight">
+                    Building <span class="gradient-text">Digital</span><br>
+                    Experiences
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">
+                    I craft modern, performant, and accessible web experiences that merge creativity with technical excellence. Currently available for freelance projects.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#projects" class="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl">
+                        View My Work
+                    </a>
+                    <a href="#contact" class="px-8 py-4 border-2 border-gray-900 dark:border-white rounded-full font-medium hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-all duration-300">
+                        Get In Touch
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+        <!-- Marquee Text -->
+    <div class="py-8 bg-gray-50 dark:bg-gray-800/50 overflow-hidden border-y border-gray-200 dark:border-gray-800">
+        <div class="flex whitespace-nowrap animate-marquee">
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-200 dark:text-gray-800 mx-8">REACT</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mx-8">TYPESCRIPT</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-200 dark:text-gray-800 mx-8">NODE.JS</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mx-8">UI/UX DESIGN</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-200 dark:text-gray-800 mx-8">NEXT.JS</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mx-8">TAILWIND</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-200 dark:text-gray-800 mx-8">REACT</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mx-8">TYPESCRIPT</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-200 dark:text-gray-800 mx-8">NODE.JS</span>
+            <span class="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mx-8">UI/UX DESIGN</span>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">Elias<span>.</span></div>
-    <p class="footer-copy">© 2026 Elias Design. All rights reserved.</p>
-    <div class="social-links">
-      <a href="#" aria-label="Twitter">
-        <svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-      </a>
-      <a href="#" aria-label="GitHub">
-        <svg viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-      </a>
-      <a href="#" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-      </a>
-    </div>
-  </div>
-</footer>
+    <!-- About Section -->
+    <section id="about" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <div class="relative">
+                        <div class="aspect-square rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop" alt="Profile" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-primary-500/10 rounded-full blur-2xl"></div>
+                        <div class="absolute -top-6 -left-6 glass p-4 rounded-xl shadow-lg">
+                            <p class="font-display text-3xl font-bold">5+</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Years Experience</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">About Me</h2>
+                    <div class="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed">
+                        <p>
+                            I'm Alex Morgan, a creative developer based in San Francisco with a passion for building beautiful, functional web experiences. With over 5 years of experience in frontend development and UI/UX design, I specialize in creating modern applications using React, TypeScript, and Node.js.
+                        </p>
+                        <p>
+                            My approach combines technical expertise with design thinking. I believe that great software should not only work flawlessly but also feel intuitive and delightful to use. I'm particularly interested in accessibility, performance optimization, and creating inclusive digital experiences.
+                        </p>
+                        <p>
+                            When I'm not coding, you'll find me exploring new design trends, contributing to open-source projects, or hiking the trails around the Bay Area.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-sm font-medium">Available for work</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span class="text-sm">San Francisco, CA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Projects Section -->
+    <section id="projects" class="py-24 md:py-32 bg-gray-50 dark:bg-gray-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Selected Work</h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    A collection of projects that showcase my expertise in building modern web applications and digital experiences.
+                </p>
+            </div>
 
-<!-- TOAST -->
-<div id="toast">
-  <strong>Message sent successfully!</strong>
-  <span>I'll get back to you within 24 hours.</span>
-</div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <article class="project-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 reveal">
+                    <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop" alt="E-commerce Platform" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-display text-xl font-bold">Luxe Commerce</h3>
+                            <span class="text-xs font-medium px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full">2024</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                            A premium e-commerce platform built with Next.js, featuring real-time inventory, AI-powered recommendations, and seamless checkout.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Next.js</span>
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Stripe</span>
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Tailwind</span>
+                        </div>
+                        <div class="flex gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <a href="#" class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline">Live Demo →</a>
+                            <a href="#" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">GitHub</a>
+                        </div>
+                    </div>
+                </article>
 
-<script>
-  // --- NAVBAR SCROLL ---
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
-  });
+                <!-- Project 2 -->
+                <article class="project-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 reveal" style="transition-delay: 100ms;">
+                    <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop" alt="Analytics Dashboard" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-display text-xl font-bold">DataDash Analytics</h3>
+                            <span class="text-xs font-medium px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full">2024</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                            Real-time analytics dashboard with interactive visualizations, custom reporting tools, and collaborative features for teams.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">React</span>
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">D3.js</span>
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Firebase</span>
+                        </div>
+                        <div class="flex gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <a href="#" class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline">Live Demo →</a>
+                            <a href="#" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">GitHub</a>
+                        </div>
+                    </div>
+                </article>
 
-  // --- MOBILE MENU ---
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  let menuOpen = false;
-  hamburger.addEventListener('click', () => {
-    menuOpen = !menuOpen;
-    mobileMenu.style.display = menuOpen ? 'flex' : 'none';
-    hamburger.querySelector('svg').innerHTML = menuOpen
-      ? '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'
-      : '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
-  });
-  function closeMobileMenu() {
-    menuOpen = false;
-    mobileMenu.style.display = 'none';
-    hamburger.querySelector('svg').innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
-  }
+                <!-- Project 3 -->
+                <article class="project-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 reveal" style="transition-delay: 200ms;">
+                    <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=450&fit=crop" alt="Social App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-display text-xl font-bold">Connect Social</h3>
+                            <span class="text-xs font-medium px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full">2023</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                            A community-focused social platform with real-time messaging, content sharing, and privacy-first architecture.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Node.js</span>
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Socket.io</span>
+                            <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">MongoDB</span>
+                        </div>
+                        <div class="flex gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <a href="#" class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline">Live Demo →</a>
+                            <a href="#" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">GitHub</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
 
-  // --- SCROLL ANIMATIONS ---
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            <div class="text-center mt-12 reveal">
+                <a href="#" class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    View All Projects
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+        <!-- Skills Section -->
+    <section id="skills" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-start">
+                <div class="reveal">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">Skills & Expertise</h2>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8">
+                        I constantly update my toolkit to stay current with modern web technologies while maintaining expertise in foundational skills.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Clean Code</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Maintainable, scalable architecture</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">UI/UX Design</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">User-centered design thinking</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Performance</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Optimization & Core Web Vitals</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-  // Hero fade in on load
-  window.addEventListener('load', () => {
-    document.querySelectorAll('#hero .fade-in').forEach(el => el.classList.add('visible'));
-  });
+                <div class="grid grid-cols-2 gap-4 reveal">
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 hover:border-primary-500 dark:hover:border-primary-500 transition-colors">
+                            <h4 class="font-bold mb-1">Frontend</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">React, Next.js, TypeScript, Tailwind CSS, Framer Motion</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 hover:border-primary-500 dark:hover:border-primary-500 transition-colors">
+                            <h4 class="font-bold mb-1">Backend</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Node.js, Express, PostgreSQL, MongoDB, GraphQL</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 hover:border-primary-500 dark:hover:border-primary-500 transition-colors">
+                            <h4 class="font-bold mb-1">Tools</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Git, Docker, Figma, VS Code, Vercel</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mt-8">
+                        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 hover:border-accent-500 dark:hover:border-accent-500 transition-colors">
+                            <h4 class="font-bold mb-1">Design</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Figma, Adobe XD, Prototyping, Design Systems</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 hover:border-accent-500 dark:hover:border-accent-500 transition-colors">
+                            <h4 class="font-bold mb-1">Cloud</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">AWS, Google Cloud, Firebase, Supabase</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 hover:border-accent-500 dark:hover:border-accent-500 transition-colors">
+                            <h4 class="font-bold mb-1">Testing</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Jest, Cypress, React Testing Library</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Contact Section -->
+    <section id="contact" class="py-24 md:py-32 bg-gray-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-600 to-accent-600"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center reveal">
+            <h2 class="font-display text-4xl md:text-6xl font-bold mb-6">Let's Work Together</h2>
+            <p class="text-gray-300 text-lg mb-12 max-w-2xl mx-auto">
+                Have a project in mind or want to discuss opportunities? I'm always open to interesting conversations and collaborations.
+            </p>
+            
+            <form class="max-w-md mx-auto space-y-4 text-left" onsubmit="event.preventDefault(); alert('Thanks for your message! This is a demo form.');">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Name</label>
+                    <input type="text" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all placeholder-gray-400" placeholder="Your name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all placeholder-gray-400" placeholder="your@email.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Message</label>
+                    <textarea rows="4" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all placeholder-gray-400" placeholder="Tell me about your project..."></textarea>
+                </div>
+                <button type="submit" class="w-full py-4 bg-white text-gray-900 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                    Send Message
+                </button>
+            </form>
 
-  // --- TOAST ---
-  function showToast() {
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4000);
-  }
+            <div class="mt-12 flex justify-center gap-6">
+                <a href="#" class="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="GitHub">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="#" class="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="LinkedIn">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="#" class="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Twitter">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="mailto:hello@alexmorgan.dev" class="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Email">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
 
-  // --- FORM VALIDATION & SUBMIT ---
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    let valid = true;
+    <!-- Footer -->
+    <footer class="py-8 bg-gray-950 text-gray-400 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-sm">© 2025 Alex Morgan. All rights reserved.</p>
+            <div class="flex gap-6 text-sm">
+                <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms</a>
+                <a href="#" class="hover:text-white transition-colors">RSS</a>
+            </div>
+        </div>
+    </footer>
+        <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Check system preference or saved preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            if (html.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
 
-    const name = document.getElementById('name');
-    const email = document.getElementById('email');
-    const service = document.getElementById('service');
-    const message = document.getElementById('message');
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-    // Reset errors
-    ['name','email','service','message'].forEach(id => {
-      document.getElementById(id).classList.remove('error');
-      document.getElementById(id + '-error').textContent = '';
-    });
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
 
-    if (!name.value.trim() || name.value.trim().length < 2) {
-      name.classList.add('error');
-      document.getElementById('name-error').textContent = 'Name is required';
-      valid = false;
-    }
-    const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRx.test(email.value.trim())) {
-      email.classList.add('error');
-      document.getElementById('email-error').textContent = 'Valid email is required';
-      valid = false;
-    }
-    if (!service.value) {
-      service.classList.add('error');
-      document.getElementById('service-error').textContent = 'Please select a service';
-      valid = false;
-    }
-    if (!message.value.trim() || message.value.trim().length < 10) {
-      message.classList.add('error');
-      document.getElementById('message-error').textContent = 'Message must be at least 10 characters';
-      valid = false;
-    }
+        // Custom cursor (desktop only)
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            // Smooth cursor follow
+            function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.1;
+                cursorY += (mouseY - cursorY) * 0.1;
+                cursor.style.left = cursorX - 10 + 'px';
+                cursor.style.top = cursorY - 10 + 'px';
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+            
+            // Hover effect on interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
 
-    if (!valid) return;
+        // Scroll reveal animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
 
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<div class="spinner"></div>';
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.textContent = 'Send Message';
-      this.reset();
-      showToast();
-    }, 1000);
-  });
-</script>
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar background on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass', 'shadow-sm');
+            } else {
+                navbar.classList.remove('glass', 'shadow-sm');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
-        </html>
-          
+</html>
