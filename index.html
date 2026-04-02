@@ -3,1006 +3,607 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Creative Developer</title>
+    <title>CityRide - Premium Taxi Reservation</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
-<style>
-    :root {
-        --primary: #FF6B35;
-        --secondary: #004E89;
-        --accent: #1A1A2E;
-        --light: #F7F7F7;
-    }
-    
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: 'Space Grotesk', sans-serif;
-        background: var(--accent);
-        color: var(--light);
-        overflow-x: hidden;
-        cursor: none;
-    }
-    
-    .cursor {
-        width: 20px;
-        height: 20px;
-        border: 2px solid var(--primary);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        mix-blend-mode: difference;
-        transition: transform 0.2s;
-    }
-    
-    .cursor-follower {
-        width: 8px;
-        height: 8px;
-        background: var(--primary);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9998;
-        mix-blend-mode: difference;
-    }
-    
-    .cursor.hover {
-        transform: scale(2);
-        background: rgba(255, 107, 53, 0.1);
-    }
-    
-    .noise {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9997;
-        opacity: 0.03;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    }
-    
-    .page {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        overflow-y: auto;
-        overflow-x: hidden;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.6s ease, visibility 0.6s ease;
-        background: var(--accent);
-    }
-    
-    .page.active {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .nav-container {
-        position: fixed;
-        top: 2rem;
-        right: 2rem;
-        z-index: 1000;
-        display: flex;
-        gap: 1rem;
-        mix-blend-mode: difference;
-    }
-    
-    .nav-btn {
-        background: transparent;
-        border: 1px solid rgba(255,255,255,0.3);
-        color: white;
-        padding: 0.75rem 1.5rem;
-        cursor: none;
-        font-family: 'Syne', sans-serif;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.1em;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .nav-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: var(--primary);
-        transition: left 0.3s ease;
-        z-index: -1;
-    }
-    
-    .nav-btn:hover::before, .nav-btn.active::before {
-        left: 0;
-    }
-    
-    .nav-btn:hover, .nav-btn.active {
-        border-color: var(--primary);
-        color: white;
-    }
-    
-    .hero-text {
-        font-family: 'Syne', sans-serif;
-        font-weight: 800;
-        font-size: clamp(3rem, 10vw, 8rem);
-        line-height: 0.9;
-        letter-spacing: -0.02em;
-    }
-    
-    .gradient-text {
-        background: linear-gradient(135deg, var(--primary) 0%, #FFD93D 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .magnetic-btn {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 1rem 2rem;
-        background: var(--primary);
-        color: white;
-        border: none;
-        font-family: 'Syne', sans-serif;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        cursor: none;
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-    
-    .magnetic-btn::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255,255,255,0.2);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
-    
-    .magnetic-btn:hover::after {
-        width: 300px;
-        height: 300px;
-    }
-    
-    .project-card {
-        position: relative;
-        overflow: hidden;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.1);
-        transition: all 0.5s ease;
-    }
-    
-    .project-card:hover {
-        border-color: var(--primary);
-        transform: translateY(-10px);
-    }
-    
-    .project-card img {
-        transition: transform 0.7s ease;
-    }
-    
-    .project-card:hover img {
-        transform: scale(1.1);
-    }
-    
-    .project-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(26,26,46,0.95) 0%, transparent 100%);
-        opacity: 0;
-        transition: opacity 0.5s ease;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 2rem;
-    }
-    
-    .project-card:hover .project-overlay {
-        opacity: 1;
-    }
-    
-    .skill-bar {
-        height: 2px;
-        background: rgba(255,255,255,0.1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .skill-progress {
-        height: 100%;
-        background: var(--primary);
-        width: 0;
-        transition: width 1.5s ease;
-    }
-    
-    .floating-shape {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.4;
-        animation: float 20s infinite ease-in-out;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        33% { transform: translate(30px, -50px) scale(1.1); }
-        66% { transform: translate(-20px, 20px) scale(0.9); }
-    }
-    
-    .marquee {
-        overflow: hidden;
-        white-space: nowrap;
-    }
-    
-    .marquee-content {
-        display: inline-block;
-        animation: marquee 20s linear infinite;
-    }
-    
-    @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-    
-    .contact-input {
-        background: transparent;
-        border: none;
-        border-bottom: 2px solid rgba(255,255,255,0.2);
-        color: white;
-        font-size: 1.5rem;
-        padding: 1rem 0;
-        width: 100%;
-        outline: none;
-        transition: border-color 0.3s;
-        font-family: 'Space Grotesk', sans-serif;
-    }
-    
-    .contact-input:focus {
-        border-color: var(--primary);
-    }
-    
-    .contact-input::placeholder {
-        color: rgba(255,255,255,0.3);
-    }
-    
-    .glitch {
-        position: relative;
-    }
-    
-    .glitch::before, .glitch::after {
-        content: attr(data-text);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    
-    .glitch::before {
-        animation: glitch-1 2s infinite;
-        color: #0ff;
-        z-index: -1;
-    }
-    
-    .glitch::after {
-        animation: glitch-2 2s infinite;
-        color: #f0f;
-        z-index: -2;
-    }
-    
-    @keyframes glitch-1 {
-        0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-        20% { clip-path: inset(20% 0 30% 0); transform: translate(-2px, 2px); }
-        40% { clip-path: inset(50% 0 20% 0); transform: translate(2px, -2px); }
-        60% { clip-path: inset(10% 0 60% 0); transform: translate(-2px, 0); }
-        80% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 2px); }
-    }
-    
-    @keyframes glitch-2 {
-        0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-        20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -2px); }
-        40% { clip-path: inset(30% 0 40% 0); transform: translate(-2px, 2px); }
-        60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 0); }
-        80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, -2px); }
-    }
-    
-    .line-mask {
-        overflow: hidden;
-    }
-    
-    .line-mask > span {
-        display: block;
-        transform: translateY(100%);
-    }
-    
-    .stat-number {
-        font-family: 'Syne', sans-serif;
-        font-size: 4rem;
-        font-weight: 700;
-        color: var(--primary);
-    }
-    
-    @media (max-width: 768px) {
-        .nav-container {
-            top: 1rem;
-            right: 1rem;
-            flex-direction: column;
-            gap: 0.5rem;
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%); }
+        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .smooth-scroll { scroll-behavior: smooth; }
+        .input-focus:focus { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .nav-btn {
-            padding: 0.5rem 1rem;
-            font-size: 0.65rem;
+        .animate-slide-in { animation: slideIn 0.8s ease-out; }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
         }
-        .cursor, .cursor-follower {
-            display: none;
-        }
-        body {
-            cursor: auto;
-        }
-    }
+        .pulse-btn { animation: pulse-glow 2s infinite; }
     </style>
-    <body>
-
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-    
-    <!-- Noise Overlay -->
-    <div class="noise"></div>
-
-    <!-- Navigation -->
-    <nav class="nav-container">
-        <button class="nav-btn active" data-page="home">Home</button>
-        <button class="nav-btn" data-page="work">Work</button>
-        <button class="nav-btn" data-page="contact">Contact</button>
+</head>
+<body class="smooth-scroll bg-gray-50 text-gray-800">
+        <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-effect border-b border-gray-200 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                        <i class="fas fa-taxi"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-900 to-cyan-500 bg-clip-text text-transparent">
+                        CityRide
+                    </span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#booking" class="text-gray-700 hover:text-blue-600 font-medium transition">Book Now</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-blue-600 font-medium transition">Pricing</a>
+                    <a href="#drivers" class="text-gray-700 hover:text-blue-600 font-medium transition">Drivers</a>
+                    <a href="#about" class="text-gray-700 hover:text-blue-600 font-medium transition">About</a>
+                    <a href="#contact" class="px-6 py-2 gradient-bg text-white rounded-full font-medium hover:shadow-lg transition transform hover:scale-105">
+                        Contact Us
+                    </a>
+                </div>
+                <button class="md:hidden text-gray-700 text-2xl" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#booking" class="block py-2 text-gray-700">Book Now</a>
+                <a href="#pricing" class="block py-2 text-gray-700">Pricing</a>
+                <a href="#drivers" class="block py-2 text-gray-700">Drivers</a>
+                <a href="#about" class="block py-2 text-gray-700">About</a>
+            </div>
+        </div>
     </nav>
-        <!-- Page 1: Home / About -->
-    <section id="home" class="page active">
-        <div class="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 relative">
-            <!-- Floating Shapes -->
-            <div class="floating-shape w-96 h-96 bg-orange-500 top-20 -left-48"></div>
-            <div class="floating-shape w-64 h-64 bg-blue-600 bottom-20 right-10" style="animation-delay: -5s;"></div>
-            
-            <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center relative z-10">
-                <div class="space-y-8">
-                    <div class="overflow-hidden">
-                        <p class="text-sm uppercase tracking-widest text-gray-400 mb-4 reveal-text">
-                            <span>Creative Developer & Designer</span>
-                        </p>
+        <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 gradient-bg opacity-10"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-slide-in">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold mb-6">
+                        <i class="fas fa-star mr-2"></i> Trusted by 50,000+ Customers
                     </div>
-                    
-                    <h1 class="hero-text glitch" data-text="CREATIVE MIND">
-                        <span class="line-mask"><span>CREATIVE</span></span>
-                        <span class="line-mask"><span class="gradient-text">MIND</span></span>
+                    <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                        Your Premium <br>
+                        <span class="bg-gradient-to-r from-blue-900 to-cyan-500 bg-clip-text text-transparent">Taxi Service</span>
                     </h1>
-                    
-                    <div class="space-y-6 max-w-lg">
-                        <p class="text-lg text-gray-300 leading-relaxed reveal-text">
-                            <span>I craft digital experiences that blend aesthetics with functionality. Specializing in interactive web applications, motion design, and creative development.</span>
-                        </p>
-                        
-                        <div class="flex flex-wrap gap-4">
-                            <button class="magnetic-btn" data-magnetic>
-                                <span>View Projects</span>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                                </svg>
-                            </button>
-                            <button class="magnetic-btn" style="background: transparent; border: 1px solid rgba(255,255,255,0.3);" data-magnetic>
-                                <span>Download CV</span>
-                            </button>
-                        </div>
-    </div>
-                                                    <!-- Stats -->
-                    <div class="grid grid-cols-3 gap-8 pt-8 border-t border-white/10">
-                        <div>
-                            <div class="stat-number" data-count="5">0</div>
-                            <p class="text-sm text-gray-400 mt-2">Years Experience</p>
-                        </div>
-                        <div>
-                            <div class="stat-number" data-count="50">0</div>
-                            <p class="text-sm text-gray-400 mt-2">Projects Done</p>
-                        </div>
-                        <div>
-                            <div class="stat-number" data-count="30">0</div>
-                            <p class="text-sm text-gray-400 mt-2">Happy Clients</p>
-                        </div>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Book your ride in seconds. Professional drivers, transparent pricing, and 24/7 availability.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#booking" class="px-8 py-4 gradient-bg text-white rounded-full font-semibold text-lg hover:shadow-xl transition transform hover:scale-105 pulse-btn">
+                            <i class="fas fa-taxi mr-2"></i>Book Now
+                        </a>
+                        <a href="#pricing" class="px-8 py-4 bg-white text-blue-900 border-2 border-blue-900 rounded-full font-semibold text-lg hover:bg-blue-50 transition">
+                            View Pricing
+                        </a>
                     </div>
                 </div>
                 
-                <div class="relative hidden lg:block">
-                    <div class="relative w-full aspect-square max-w-md mx-auto">
-                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500 to-blue-600 rounded-full opacity-20 blur-3xl animate-pulse"></div>
-                        <div class="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 transform rotate-3 hover:rotate-0 transition-transform duration-700">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" alt="Profile" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                        </div>
-                        
-                        <!-- Floating badges -->
-                        <div class="absolute -top-4 -right-4 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-sm font-medium animate-bounce" style="animation-duration: 3s;">
-                            Available for work
-                        </div>
-                        <div class="absolute -bottom-4 -left-4 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium">
-                            Open Source Contributor
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-                <span class="text-xs uppercase tracking-widest">Scroll</span>
-                <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
-            </div>
-        </div>
-                <!-- Skills Section -->
-        <div class="px-8 md:px-16 lg:px-24 py-24 bg-black/20">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-bold mb-12 font-['Syne']">Technical Expertise</h2>
-                
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="space-y-8">
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">JavaScript / TypeScript</span>
-                                <span class="text-orange-500">95%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="95"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">React / Next.js</span>
-                                <span class="text-orange-500">90%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="90"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Three.js / WebGL</span>
-                                <span class="text-orange-500">85%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="85"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-8">
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">GSAP / Framer Motion</span>
-                                <span class="text-orange-500">92%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="92"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Node.js / Express</span>
-                                <span class="text-orange-500">88%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="88"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">UI/UX Design</span>
-                                <span class="text-orange-500">80%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="80"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-                                </section>
-        <!-- Page 2: Work / Projects -->
-    <section id="work" class="page">
-        <div class="min-h-screen pt-32 pb-20 px-8 md:px-16 lg:px-24">
-            <div class="max-w-7xl mx-auto">
-                <div class="mb-16">
-                    <p class="text-orange-500 text-sm uppercase tracking-widest mb-4">Portfolio</p>
-                    <h2 class="text-5xl md:text-7xl font-bold font-['Syne'] mb-6">Selected<br><span class="gradient-text">Works</span></h2>
-                    <p class="text-gray-400 max-w-xl text-lg">A curated collection of projects that showcase my expertise in creative development and interactive design.</p>
-                </div>
-                                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Project 1 -->
-                    <div class="project-card rounded-xl aspect-[4/5] group cursor-none" data-project>
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="Project 1" class="w-full h-full object-cover">
-                        <div class="project-overlay">
-                            <span class="text-orange-500 text-sm uppercase tracking-widest mb-2">Web Application</span>
-                            <h3 class="text-2xl font-bold font-['Syne'] mb-2">Neon Finance</h3>
-                            <p class="text-gray-300 text-sm mb-4">Cryptocurrency dashboard with real-time data visualization and WebGL effects.</p>
-                            <div class="flex gap-2">
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">React</span>
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Three.js</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 2 -->
-                    <div class="project-card rounded-xl aspect-[4/5] group cursor-none" data-project>
-                        <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80" alt="Project 2" class="w-full h-full object-cover">
-                        <div class="project-overlay">
-                            <span class="text-orange-500 text-sm uppercase tracking-widest mb-2">E-Commerce</span>
-                            <h3 class="text-2xl font-bold font-['Syne'] mb-2">Luxe Store</h3>
-                            <p class="text-gray-300 text-sm mb-4">High-end fashion e-commerce platform with immersive product experiences.</p>
-                            <div class="flex gap-2">
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Next.js</span>
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">GSAP</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 3 -->
-                    <div class="project-card rounded-xl aspect-[4/5] group cursor-none" data-project>
-                        <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=800&q=80" alt="Project 3" class="w-full h-full object-cover">
-                        <div class="project-overlay">
-                            <span class="text-orange-500 text-sm uppercase tracking-widest mb-2">Creative Agency</span>
-                            <h3 class="text-2xl font-bold font-['Syne'] mb-2">Aurora Studio</h3>
-                            <p class="text-gray-300 text-sm mb-4">Award-winning agency website featuring smooth scroll animations.</p>
-                            <div class="flex gap-2">
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Vue.js</span>
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">WebGL</span>
-                            </div>
-                        </div>
-                    </div>
-                                        <!-- Project 4 -->
-                    <div class="project-card rounded-xl aspect-[4/5] group cursor-none" data-project>
-                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80" alt="Project 4" class="w-full h-full object-cover">
-                        <div class="project-overlay">
-                            <span class="text-orange-500 text-sm uppercase tracking-widest mb-2">SaaS Platform</span>
-                            <h3 class="text-2xl font-bold font-['Syne'] mb-2">Cloud Sync</h3>
-                            <p class="text-gray-300 text-sm mb-4">Enterprise cloud management tool with intuitive drag-and-drop interface.</p>
-                            <div class="flex gap-2">
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">TypeScript</span>
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">D3.js</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 5 -->
-                    <div class="project-card rounded-xl aspect-[4/5] group cursor-none" data-project>
-                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80" alt="Project 5" class="w-full h-full object-cover">
-                        <div class="project-overlay">
-                            <span class="text-orange-500 text-sm uppercase tracking-widest mb-2">Interactive Art</span>
-                            <h3 class="text-2xl font-bold font-['Syne'] mb-2">Digital Waves</h3>
-                            <p class="text-gray-300 text-sm mb-4">Generative art installation using particle systems and audio reactivity.</p>
-                            <div class="flex gap-2">
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Canvas API</span>
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Web Audio</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 6 -->
-                    <div class="project-card rounded-xl aspect-[4/5] group cursor-none" data-project>
-                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80" alt="Project 6" class="w-full h-full object-cover">
-                        <div class="project-overlay">
-                            <span class="text-orange-500 text-sm uppercase tracking-widest mb-2">Mobile App</span>
-                            <h3 class="text-2xl font-bold font-['Syne'] mb-2">FitTrack Pro</h3>
-                            <p class="text-gray-300 text-sm mb-4">Fitness tracking application with gamification and social features.</p>
-                            <div class="flex gap-2">
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">React Native</span>
-                                <span class="px-3 py-1 bg-white/10 rounded-full text-xs">Firebase</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Marquee -->
-                <div class="mt-24 border-y border-white/10 py-8 marquee">
-                    <div class="marquee-content text-6xl font-['Syne'] font-bold text-white/10">
-                        REACT • THREE.JS • GSAP • NODE.JS • TYPESCRIPT • NEXT.JS • WEBGL • CREATIVE DEVELOPMENT • REACT • THREE.JS • GSAP • NODE.JS • TYPESCRIPT • NEXT.JS • WEBGL • CREATIVE DEVELOPMENT •
-                    </div>
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-3xl transform rotate-3 opacity-20"></div>
+                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=600&fit=crop" alt="Taxi Service" class="relative rounded-3xl shadow-2xl w-full object-cover h-[500px] hover-lift">
                 </div>
             </div>
         </div>
     </section>
-        <!-- Page 3: Contact -->
-    <section id="contact" class="page">
-        <div class="min-h-screen flex items-center px-8 md:px-16 lg:px-24 relative overflow-hidden">
-            <!-- Background Elements -->
-            <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-orange-500/10 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+        <!-- Booking Form Section -->
+    <section id="booking" class="py-20 bg-white relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Book Your Ride</h2>
+                <p class="text-lg text-gray-600">Fill in your details and get an instant price quote</p>
+            </div>
             
-            <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 relative z-10">
-                <div>
-                    <p class="text-orange-500 text-sm uppercase tracking-widest mb-4">Get in Touch</p>
-                    <h2 class="text-5xl md:text-7xl font-bold font-['Syne'] mb-8">Let's Create<br>Something <span class="gradient-text">Amazing</span></h2>
-                    <p class="text-gray-300 text-lg mb-12 max-w-md">Have a project in mind? I'd love to hear about it. Let's discuss how we can work together to bring your ideas to life.</p>
-                                        <div class="space-y-6">
-                        <div class="flex items-center gap-4 group cursor-none" data-magnetic>
-                            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-orange-500 transition-colors">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-400">Email</p>
-                                <p class="text-lg font-medium">hello@creative.dev</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4 group cursor-none" data-magnetic>
-                            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-orange-500 transition-colors">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-400">Location</p>
-                                <p class="text-lg font-medium">San Francisco, CA</p>
+            <div class="bg-white rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-100">
+                <form id="bookingForm" class="space-y-6">
+                    <!-- Route Selection -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 flex items-center">
+                                <i class="fas fa-map-marker-alt text-blue-600 mr-2"></i>Pickup Location
+                            </label>
+                            <div class="relative">
+                                <input type="text" id="pickup" placeholder="Enter pickup address" 
+                                       class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 input-focus outline-none transition bg-gray-50 focus:bg-white"
+                                       onchange="calculatePrice()">
+                                <button type="button" onclick="getCurrentLocation()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-location-arrow"></i>
+                                </button>
                             </div>
                         </div>
                         
-                        <div class="flex items-center gap-4 group cursor-none" data-magnetic>
-                            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-orange-500 transition-colors">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                                    <line x1="8" y1="21" x2="16" y2="21"/>
-                                    <line x1="12" y1="17" x2="12" y2="21"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-400">Availability</p>
-                                <p class="text-lg font-medium">Open for freelance</p>
-                            </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 flex items-center">
+                                <i class="fas fa-flag-checkered text-cyan-600 mr-2"></i>Drop-off Location
+                            </label>
+                            <input type="text" id="dropoff" placeholder="Enter destination address" 
+                                   class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 input-focus outline-none transition bg-gray-50 focus:bg-white"
+                                   onchange="calculatePrice()">
                         </div>
                     </div>
-                    
-                    <!-- Social Links -->
-                    <div class="flex gap-4 mt-12">
-                        <a href="#" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:border-orange-500 hover:text-orange-500 transition-all magnetic-btn" style="background: transparent;" data-magnetic>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:border-orange-500 hover:text-orange-500 transition-all magnetic-btn" style="background: transparent;" data-magnetic>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:border-orange-500 hover:text-orange-500 transition-all magnetic-btn" style="background: transparent;" data-magnetic>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
+                                        <!-- Client Information -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 flex items-center">
+                                <i class="fas fa-user text-blue-600 mr-2"></i>Full Name
+                            </label>
+                            <input type="text" id="clientName" placeholder="Your full name" 
+                                   class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 input-focus outline-none transition bg-gray-50 focus:bg-white">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 flex items-center">
+                                <i class="fas fa-phone text-blue-600 mr-2"></i>Phone Number
+                            </label>
+                            <input type="tel" id="clientPhone" placeholder="+1 234 567 890" 
+                                   class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 input-focus outline-none transition bg-gray-50 focus:bg-white">
+                        </div>
                     </div>
-                                </div>
-                                                <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12">
-                    <form id="contactForm" class="space-y-8">
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-2 uppercase tracking-wider">Your Name</label>
-                            <input type="text" class="contact-input" placeholder="John Doe" required>
+
+                    <!-- Date & Luggage -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 flex items-center">
+                                <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>Pickup Date & Time
+                            </label>
+                            <input type="datetime-local" id="pickupTime" 
+                                   class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 input-focus outline-none transition bg-gray-50 focus:bg-white">
                         </div>
                         
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-2 uppercase tracking-wider">Email Address</label>
-                            <input type="email" class="contact-input" placeholder="john@example.com" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-2 uppercase tracking-wider">Project Type</label>
-                            <select class="contact-input bg-transparent cursor-none">
-                                <option value="" class="bg-gray-900">Select a service</option>
-                                <option value="web" class="bg-gray-900">Web Development</option>
-                                <option value="design" class="bg-gray-900">UI/UX Design</option>
-                                <option value="motion" class="bg-gray-900">Motion Design</option>
-                                <option value="consulting" class="bg-gray-900">Consulting</option>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 flex items-center">
+                                <i class="fas fa-suitcase text-blue-600 mr-2"></i>Luggage Count
+                            </label>
+                            <select id="luggage" class="w-full px-4 py-4 rounded-xl border-2 border-gray-200 input-focus outline-none transition bg-gray-50 focus:bg-white" onchange="calculatePrice()">
+                                <option value="0">No Luggage</option>
+                                <option value="1">1 Bag</option>
+                                <option value="2">2 Bags</option>
+                                <option value="3">3 Bags</option>
+                                <option value="4">4+ Bags</option>
                             </select>
                         </div>
-                        
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-2 uppercase tracking-wider">Message</label>
-                            <textarea class="contact-input resize-none" rows="3" placeholder="Tell me about your project..." required></textarea>
+                    </div>
+
+                    <!-- Car Type Selection -->
+                    <div class="space-y-3">
+                        <label class="text-sm font-semibold text-gray-700">Select Vehicle Type</label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="carType" value="standard" class="hidden peer" checked onchange="calculatePrice()">
+                                <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 transition text-center hover-lift">
+                                    <i class="fas fa-car text-2xl text-gray-600 peer-checked:text-blue-600 mb-2"></i>
+                                    <p class="font-semibold text-sm">Standard</p>
+                                    <p class="text-xs text-gray-500">Up to 3 pax</p>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="carType" value="comfort" class="hidden peer" onchange="calculatePrice()">
+                                <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 transition text-center hover-lift">
+                                    <i class="fas fa-car-side text-2xl text-gray-600 peer-checked:text-blue-600 mb-2"></i>
+                                    <p class="font-semibold text-sm">Comfort</p>
+                                    <p class="text-xs text-gray-500">Up to 4 pax</p>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="carType" value="van" class="hidden peer" onchange="calculatePrice()">
+                                <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 transition text-center hover-lift">
+                                    <i class="fas fa-shuttle-van text-2xl text-gray-600 peer-checked:text-blue-600 mb-2"></i>
+                                    <p class="font-semibold text-sm">Van</p>
+                                    <p class="text-xs text-gray-500">Up to 8 pax</p>
+                                </div>
+                            </label>
                         </div>
-                        
-                        <button type="submit" class="magnetic-btn w-full justify-center text-lg" data-magnetic>
-                            <span>Send Message</span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="22" y1="2" x2="11" y2="13"/>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                            </svg>
-                        </button>
-                    </form>
+                    </div>
+                                        <!-- Price Quote Display -->
+                    <div id="priceQuote" class="hidden bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl p-6 text-white transform transition-all duration-500">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-blue-200 text-sm mb-1">Estimated Price</p>
+                                <p class="text-4xl font-bold" id="priceAmount">$0.00</p>
+                                <p class="text-sm text-blue-200 mt-1" id="distanceEstimate">Distance: Calculating...</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-blue-200">Includes all taxes & fees</p>
+                                <p class="text-xs text-blue-300 mt-1">Free cancellation</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 gradient-bg text-white rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-[1.02] flex items-center justify-center space-x-2">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Confirm Booking</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+        <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Transparent Pricing</h2>
+                <p class="text-lg text-gray-600">No hidden fees. Pay what you see.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Standard -->
+                <div class="bg-white rounded-3xl shadow-lg p-8 hover-lift border border-gray-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-6">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Standard</h3>
+                    <p class="text-gray-500 mb-6">Perfect for daily commutes</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$2.50</span>
+                        <span class="text-gray-500">/km</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Up to 3 passengers</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>2 luggage bags</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Air conditioned</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Free WiFi</li>
+                    </ul>
+                    <button onclick="selectPlan('standard')" class="w-full py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-600 hover:text-white transition">
+                        Choose Standard
+                    </button>
+                </div>
+
+                <!-- Comfort -->
+                <div class="bg-white rounded-3xl shadow-xl p-8 hover-lift border-2 border-blue-600 transform scale-105">
+                    <div class="absolute top-0 right-0 bg-blue-600 px-4 py-1 rounded-bl-xl text-sm font-semibold text-white">Best Value</div>
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-6">
+                        <i class="fas fa-car-side"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Comfort</h3>
+                    <p class="text-gray-500 mb-6">Extra space and comfort</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-blue-600">$3.50</span>
+                        <span class="text-gray-500">/km</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Up to 4 passengers</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>4 luggage bags</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Premium vehicles</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Priority support</li>
+                    </ul>
+                    <button onclick="selectPlan('comfort')" class="w-full py-3 gradient-bg text-white rounded-xl font-semibold hover:shadow-lg transition">
+                        Choose Comfort
+                    </button>
+                </div>
+
+                <!-- Van -->
+                <div class="bg-white rounded-3xl shadow-lg p-8 hover-lift border border-gray-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-6">
+                        <i class="fas fa-shuttle-van"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Van</h3>
+                    <p class="text-gray-500 mb-6">For groups and families</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$5.00</span>
+                        <span class="text-gray-500">/km</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Up to 8 passengers</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>8+ luggage bags</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Extra legroom</li>
+                        <li class="flex items-center text-gray-600"><i class="fas fa-check text-green-500 mr-3"></i>Child seats available</li>
+                    </ul>
+                    <button onclick="selectPlan('van')" class="w-full py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-600 hover:text-white transition">
+                        Choose Van
+                    </button>
                 </div>
             </div>
         </div>
     </section>
-        <script>
-        // Register GSAP plugins
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
+        <!-- Drivers Section -->
+    <section id="drivers" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Professional Drivers</h2>
+                <p class="text-lg text-gray-600">Experienced, licensed, and background-checked</p>
+            </div>
             
-            cursor.style.left = cursorX - 10 + 'px';
-            cursor.style.top = cursorY - 10 + 'px';
-            cursorFollower.style.left = followerX - 4 + 'px';
-            cursorFollower.style.top = followerY - 4 + 'px';
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-3xl p-6 hover-lift">
+                    <div class="relative mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Driver" class="w-full h-64 object-cover rounded-2xl">
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                            <i class="fas fa-star mr-1"></i> 4.9
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">Ahmed Hassan</h3>
+                    <p class="text-blue-600 font-medium mb-2">5 years experience</p>
+                    <div class="flex items-center text-gray-500 text-sm space-x-4">
+                        <span><i class="fas fa-car mr-1"></i> Toyota Camry</span>
+                        <span><i class="fas fa-shield-alt mr-1"></i> Verified</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-3xl p-6 hover-lift">
+                    <div class="relative mb-4">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" alt="Driver" class="w-full h-64 object-cover rounded-2xl">
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                            <i class="fas fa-star mr-1"></i> 4.8
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">John Smith</h3>
+                    <p class="text-blue-600 font-medium mb-2">8 years experience</p>
+                    <div class="flex items-center text-gray-500 text-sm space-x-4">
+                        <span><i class="fas fa-car mr-1"></i> Mercedes E-Class</span>
+                        <span><i class="fas fa-shield-alt mr-1"></i> Verified</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-3xl p-6 hover-lift">
+                    <div class="relative mb-4">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop" alt="Driver" class="w-full h-64 object-cover rounded-2xl">
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                            <i class="fas fa-star mr-1"></i> 5.0
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">Michael Chen</h3>
+                    <p class="text-blue-600 font-medium mb-2">3 years experience</p>
+                    <div class="flex items-center text-gray-500 text-sm space-x-4">
+                        <span><i class="fas fa-car mr-1"></i> Tesla Model 3</span>
+                        <span><i class="fas fa-shield-alt mr-1"></i> Verified</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Company Info Section -->
+    <section id="about" class="py-20 gradient-bg text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6">About CityRide</h2>
+                    <p class="text-xl text-blue-100 mb-6 leading-relaxed">
+                        Founded in 2020, CityRide has grown to become the most trusted taxi service in the city.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                            <p class="text-3xl font-bold">50+</p>
+                            <p class="text-blue-200">Vehicles</p>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                            <p class="text-3xl font-bold">100+</p>
+                            <p class="text-blue-200">Drivers</p>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                            <p class="text-3xl font-bold">24/7</p>
+                            <p class="text-blue-200">Support</p>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                            <p class="text-3xl font-bold">15min</p>
+                            <p class="text-blue-200">Avg. Arrival</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8">
+                    <h3 class="text-2xl font-bold mb-6">Why Choose Us?</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Safety First</h4>
+                                <p class="text-blue-200 text-sm">All drivers background-checked</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Fixed Pricing</h4>
+                                <p class="text-blue-200 text-sm">No surge pricing ever</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">24/7 Service</h4>
+                                <p class="text-blue-200 text-sm">Available round the clock</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+                <p class="text-lg text-gray-600">We're here to help you 24/7</p>
+            </div>
             
-            requestAnimationFrame(animateCursor);
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg hover-lift">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-4">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Our Address</h3>
+                        <p class="text-gray-600">123 Business Avenue, Downtown<br>City Center, 10001</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-lg hover-lift">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-xl mb-4">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">WhatsApp</h3>
+                        <a href="https://wa.me/1234567890" target="_blank" class="inline-flex items-center px-6 py-3 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition">
+                            <i class="fab fa-whatsapp mr-2 text-xl"></i>Chat on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="bg-white rounded-2xl p-8 shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Follow Us</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="https://instagram.com/cityride" target="_blank" class="flex items-center p-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl text-white hover:shadow-lg transition transform hover:scale-105">
+                                <i class="fab fa-instagram text-2xl mr-3"></i>
+                                <div>
+                                    <p class="font-semibold">Instagram</p>
+                                    <p class="text-xs opacity-90">@cityride</p>
+                                </div>
+                            </a>
+                            <a href="https://tiktok.com/@cityride" target="_blank" class="flex items-center p-4 bg-black rounded-xl text-white hover:shadow-lg transition transform hover:scale-105">
+                                <i class="fab fa-tiktok text-2xl mr-3"></i>
+                                <div>
+                                    <p class="font-semibold">TikTok</p>
+                                    <p class="text-xs opacity-90">@cityride</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                            <i class="fas fa-taxi"></i>
+                        </div>
+                        <span class="text-2xl font-bold">CityRide</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Your trusted partner for safe, comfortable, and reliable transportation.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#booking" class="hover:text-white transition">Book a Ride</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="#drivers" class="hover:text-white transition">Our Drivers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition">Safety</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <p class="text-gray-400 text-sm">+1 (234) 567-890</p>
+                    <p class="text-gray-400 text-sm">info@cityride.com</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2026 CityRide. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
         }
-        animateCursor();
-        
-        // Hover effects for cursor
-        const hoverElements = document.querySelectorAll('button, a, .project-card, [data-magnetic]');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-        
-        // Magnetic Buttons
-        const magneticElements = document.querySelectorAll('[data-magnetic]');
-        magneticElements.forEach(el => {
-            el.addEventListener('mousemove', (e) => {
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                gsap.to(el, {
-                    x: x * 0.3,
-                    y: y * 0.3,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-            });
+
+        function calculatePrice() {
+            const pickup = document.getElementById('pickup').value;
+            const dropoff = document.getElementById('dropoff').value;
+            const luggage = parseInt(document.getElementById('luggage').value);
+            const carType = document.querySelector('input[name="carType"]:checked').value;
             
-            el.addEventListener('mouseleave', () => {
-                gsap.to(el, {
-                    x: 0,
-                    y: 0,
-                    duration: 0.3,
-                    ease: "elastic.out(1, 0.3)"
-                });
-            });
-        });
-        
-        // Page Navigation
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const pages = document.querySelectorAll('.page');
-        
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetPage = btn.dataset.page;
+            if (pickup && dropoff) {
+                const distance = Math.floor(Math.random() * 45) + 5;
+                const rates = { standard: 2.50, comfort: 3.50, van: 5.00 };
+                let price = distance * rates[carType];
+                if (luggage > 2) price += (luggage - 2) * 5;
                 
-                navBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                pages.forEach(page => {
-                    if (page.id === targetPage) {
-                        page.classList.add('active');
-                        initPageAnimations(page.id);
-                    } else {
-                        page.classList.remove('active');
+                document.getElementById('priceQuote').classList.remove('hidden');
+                document.getElementById('priceAmount').textContent = '$' + price.toFixed(2);
+                document.getElementById('distanceEstimate').textContent = 'Estimated distance: ' + distance + ' km';
+            }
+        }
+
+        function selectPlan(plan) {
+            document.querySelector('input[value="' + plan + '"]').checked = true;
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            calculatePrice();
+        }
+
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        document.getElementById('pickup').value = "Current Location (GPS)";
+                        calculatePrice();
+                    },
+                    (error) => {
+                        alert("Unable to retrieve your location.");
                     }
-                });
-            });
-        });
-                    // Page-specific animations
-        function initPageAnimations(pageId) {
-            if (pageId === 'home') {
-                // Hero text animation
-                gsap.fromTo('.line-mask span', 
-                    { y: '100%' },
-                    { y: '0%', duration: 1, stagger: 0.2, ease: "power4.out", delay: 0.2 }
-                );
-                
-                // Stats counter animation
-                const statNumbers = document.querySelectorAll('.stat-number');
-                statNumbers.forEach(stat => {
-                    const target = parseInt(stat.dataset.count);
-                    gsap.to(stat, {
-                        innerHTML: target,
-                        duration: 2,
-                        snap: { innerHTML: 1 },
-                        ease: "power2.out",
-                        delay: 0.5
-                    });
-                });
-                
-                // Skill bars animation
-                const skillBars = document.querySelectorAll('.skill-progress');
-                skillBars.forEach(bar => {
-                    const width = bar.dataset.width;
-                    gsap.to(bar, {
-                        width: width + '%',
-                        duration: 1.5,
-                        ease: "power2.out",
-                        delay: 0.3
-                    });
-                });
-                
-            } else if (pageId === 'work') {
-                // Project cards stagger animation
-                gsap.fromTo('.project-card',
-                    { y: 100, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power3.out" }
-                );
-                
-            } else if (pageId === 'contact') {
-                // Contact form animation
-                gsap.fromTo('#contactForm > div',
-                    { x: 50, opacity: 0 },
-                    { x: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power3.out" }
                 );
             }
         }
-        
-        // Initialize home page animations
-        initPageAnimations('home');
-                    // Text scramble effect for hero
-        class TextScramble {
-            constructor(el) {
-                this.el = el;
-                this.chars = '!<>-_\\/[]{}—=+*^?#________';
-                this.update = this.update.bind(this);
-            }
-            
-            setText(newText) {
-                const oldText = this.el.innerText;
-                const length = Math.max(oldText.length, newText.length);
-                const promise = new Promise((resolve) => this.resolve = resolve);
-                this.queue = [];
-                for (let i = 0; i < length; i++) {
-                    const from = oldText[i] || '';
-                    const to = newText[i] || '';
-                    const start = Math.floor(Math.random() * 40);
-                    const end = start + Math.floor(Math.random() * 40);
-                    this.queue.push({ from, to, start, end });
-                }
-                cancelAnimationFrame(this.frameRequest);
-                this.frame = 0;
-                this.update();
-                return promise;
-            }
-            
-            update() {
-                let output = '';
-                let complete = 0;
-                for (let i = 0, n = this.queue.length; i < n; i++) {
-                    let { from, to, start, end, char } = this.queue[i];
-                    if (this.frame >= end) {
-                        complete++;
-                        output += to;
-                    } else if (this.frame >= start) {
-                        if (!char || Math.random() < 0.28) {
-                            char = this.randomChar();
-                            this.queue[i].char = char;
-                        }
-                        output += `<span class="text-orange-500">${char}</span>`;
-                    } else {
-                        output += from;
-                    }
-                }
-                this.el.innerHTML = output;
-                if (complete === this.queue.length) {
-                    this.resolve();
-                } else {
-                    this.frameRequest = requestAnimationFrame(this.update);
-                    this.frame++;
-                }
-            }
-            
-            randomChar() {
-                return this.chars[Math.floor(Math.random() * this.chars.length)];
-            }
-        }
-        
-        // Initialize scramble on load
-        window.addEventListener('load', () => {
-            const el = document.querySelector('.glitch');
-            if (el) {
-                const fx = new TextScramble(el);
-                let counter = 0;
-                const phrases = [
-                    'CREATIVE MIND',
-                    'CODE ARTIST',
-                    'DIGITAL NOMAD'
-                ];
-                
-                const next = () => {
-                    fx.setText(phrases[counter]).then(() => {
-                        setTimeout(next, 3000);
-                    });
-                    counter = (counter + 1) % phrases.length;
-                };
-                
-                setTimeout(next, 2000);
-            }
-        });
-        
-        // Form submission
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.innerHTML;
+            const required = ['pickup', 'dropoff', 'clientName', 'clientPhone'];
+            let valid = true;
             
-            btn.innerHTML = '<span>Message Sent!</span>';
-            btn.style.background = '#10B981';
-            
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = '';
-                e.target.reset();
-            }, 3000);
-        });
-        
-        // Parallax effect on scroll
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.floating-shape');
-            parallaxElements.forEach(el => {
-                const speed = 0.5;
-                el.style.transform = `translateY(${scrolled * speed}px)`;
+            required.forEach(field => {
+                if (!document.getElementById(field).value) {
+                    valid = false;
+                    document.getElementById(field).classList.add('border-red-500');
+                } else {
+                    document.getElementById(field).classList.remove('border-red-500');
+                }
             });
-        });
-        
-        // Glitch effect random trigger
-        setInterval(() => {
-            const glitch = document.querySelector('.glitch');
-            if (glitch && Math.random() > 0.9) {
-                glitch.style.animation = 'none';
-                setTimeout(() => {
-                    glitch.style.animation = '';
-                }, 100);
+            
+            if (valid) {
+                alert('Booking Confirmed! Your taxi will arrive soon.');
+                this.reset();
+                document.getElementById('priceQuote').classList.add('hidden');
+            } else {
+                alert('Please fill in all required fields.');
             }
-        }, 5000);
+        });
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('pickupTime').value = now.toISOString().slice(0, 16);
     </script>
 </body>
-</html>
+    </html>
+    
